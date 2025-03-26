@@ -10,6 +10,7 @@ public class AppAcademiaApplication {
 		System.out.println("=================================");
 		System.out.println("Iniciando aplicação");
 		System.out.println("DATABASE_URL: jdbc:postgresql://" +  System.getenv("PGHOST") + ":" +  System.getenv("PGPORT") + "/" + System.getenv("PGDATABASE"));
+		System.out.println("DATABASE_URL: " + System.getenv("DATABASE_URL"));
 		System.out.println("PGHOST: " + System.getenv("PGHOST"));
 		System.out.println("PGPORT: " + System.getenv("PGPORT"));
 		System.out.println("PGDATABASE: " + System.getenv("PGDATABASE"));
