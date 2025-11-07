@@ -1,4 +1,4 @@
-package com.bml.appAcademia.exercicio;
+package com.bml.appAcademia.domain.exercicio;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

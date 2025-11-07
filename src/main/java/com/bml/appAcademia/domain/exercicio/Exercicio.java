@@ -1,4 +1,4 @@
-package com.bml.appAcademia.exercicio;
+package com.bml.appAcademia.domain.exercicio;
 
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
