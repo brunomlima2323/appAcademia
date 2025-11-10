@@ -1,0 +1,4 @@
+CREATE TABLE treinos (
+    id BIGSERIAL PRIMARY KEY,
+    nome_treino VARCHAR(100) NOT NULL
+);

@@ -29,7 +29,9 @@ public class AutenticacaoController {
     public ResponseEntity efetuarLogin(@RequestBody DadosAutenticacaoDTO dados){
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha()); //cria um objeto UsernamePasswordAuthenticationToken com esses dados
         Authentication authentication = authenticationManager.authenticate(authenticationToken); //Esse token é enviado ao AuthenticationManager, que dispara a cadeia de autenticação interna do Spring Security.
-        String tokenJWT = tokenService.gerarToken( (Usuario) authentication.getPrincipal() );
-        return ResponseEntity.ok(new DadosTokenJwtDTO(tokenJWT));
+        Usuario usuario = (Usuario) authentication.getPrincipal();
+        System.out.println(usuario.getId());
+        String tokenJWT = tokenService.gerarToken( usuario );
+        return ResponseEntity.ok(new DadosTokenJwtDTO(tokenJWT, usuario.getId()));
     }
 }

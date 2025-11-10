@@ -1,16 +1,14 @@
 package com.bml.appAcademia.controller;
 
-import com.bml.appAcademia.domain.exercicio.ExercicioDTO;
 import com.bml.appAcademia.domain.exercicio.Exercicio;
+import com.bml.appAcademia.domain.exercicio.ExercicioDTO;
 import com.bml.appAcademia.domain.exercicio.ExercicioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;

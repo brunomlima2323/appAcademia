@@ -1,5 +1,6 @@
 package com.bml.appAcademia.domain.usuario;
 
+import com.bml.appAcademia.domain.treino.Treino;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -24,6 +25,8 @@ public class Usuario implements UserDetails {
     private Long id;
     private String login;
     private String senha;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Treino> treinos;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
