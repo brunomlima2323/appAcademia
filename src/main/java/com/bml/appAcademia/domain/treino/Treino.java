@@ -24,8 +24,9 @@ public class Treino {
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
 
-    public Treino(TreinoDTO dados) {
+    public Treino(TreinoDTO dados, Usuario usuario) {
         this.nomeTreino = dados.nomeTreino();
+        this.usuario = usuario;
     }
 
     public void atualizarDados(@Valid TreinoDTO dados) {

@@ -13,6 +13,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static org.springframework.http.HttpMethod.POST;
 
@@ -27,9 +30,11 @@ public class SecurityConfigurations {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
             .csrf(c -> c.disable())//Desabilita a proteção contra ataques CSRF. O próprio Token já protege contra isso
+            .cors(c -> c.configurationSource(corsConfigurationSource())) //Ative CORS no SecurityFilterChain para permitir requisições localhost
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Configura a autenticação para ser StateLess
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/login","h2-console/**").permitAll() //Permito requisições para essas URLs
+                .requestMatchers("/v3/api-docs/**","/swagger-ui.html","/swagger-ui/**").permitAll()
                 .anyRequest().authenticated() //Qualquer outra requisição só permito se estiver autenticado
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class) //Informo que meu filtro precisa ser chamado antes do Filter do Spring
@@ -44,5 +49,25 @@ public class SecurityConfigurations {
     @Bean
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean //Metodo de configuracao CORS
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowCredentials(true);
+
+        // Permito requisicoes do Fronte-end local
+        configuration.addAllowedOrigin("http://localhost:4200");
+
+        // libera qualquer origem HTTPS se necessário
+//        configuration.addAllowedOriginPattern("*");
+
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
     }
 }

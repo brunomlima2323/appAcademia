@@ -33,7 +33,7 @@ public class TreinoExercicioService {
         }
 
         var authentication = SecurityContextHolder.getContext().getAuthentication();
-        Usuario usuario = (Usuario) authentication.getPrincipal();
+            Usuario usuario = (Usuario) authentication.getPrincipal();
 
         Treino treino = treinoRepository.findById(dados.treino_id()).get();
 

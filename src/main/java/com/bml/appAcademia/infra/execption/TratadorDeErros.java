@@ -1,5 +1,6 @@
 package com.bml.appAcademia.infra.execption;
 
+import com.bml.appAcademia.domain.ValidacaoException;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +34,19 @@ public class TratadorDeErros {
     public ResponseEntity tratarErro400(MethodArgumentNotValidException ex){
         List<FieldError> erros = ex.getFieldErrors();
         return ResponseEntity.badRequest().body(erros.stream().map(DadosErroValidacao::new));
+    }
+
+    @ExceptionHandler(ValidacaoException.class)
+    public ResponseEntity tratarErro400(ValidacaoException ex){
+//        return ResponseEntity.badRequest().body(ex.getMessage());
+        Map<String, Object> erro = new LinkedHashMap<>();
+        erro.put("timestamp", LocalDateTime.now());
+        erro.put("status", HttpStatus.BAD_REQUEST.value());
+        erro.put("error", "Erro na requisição");
+        erro.put("message", ex.getMessage());
+        erro.put("path", ServletUriComponentsBuilder.fromCurrentRequestUri().toUriString());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(erro);
     }
 
     private record DadosErroValidacao(String campo, String mensagem){

@@ -1,20 +1,15 @@
 package com.bml.appAcademia.controller;
 
-import com.bml.appAcademia.domain.treino.Treino;
-import com.bml.appAcademia.domain.treino.TreinoDTO;
-import com.bml.appAcademia.domain.treinoExercicio.TreinoExercicio;
 import com.bml.appAcademia.domain.treinoExercicio.TreinoExercicioDTO;
-import com.bml.appAcademia.domain.treinoExercicio.TreinoExercicioRepository;
 import com.bml.appAcademia.domain.treinoExercicio.TreinoExercicioService;
-import jakarta.validation.Valid;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping("/treinoExercicio")
+@SecurityRequirement(name = "bearer-key")
 public class TreinoExercicioController {
 
     @Autowired
