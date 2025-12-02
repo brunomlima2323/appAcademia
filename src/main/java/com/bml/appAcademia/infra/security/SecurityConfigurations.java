@@ -59,6 +59,7 @@ public class SecurityConfigurations {
 
         // Permito requisicoes do Fronte-end local
         configuration.addAllowedOrigin("http://localhost:4200");
+        configuration.addAllowedOrigin("https://brunomlima2323.github.io");
 
         // libera qualquer origem HTTPS se necessário
 //        configuration.addAllowedOriginPattern("*");
