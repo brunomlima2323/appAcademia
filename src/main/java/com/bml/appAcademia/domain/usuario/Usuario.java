@@ -25,8 +25,14 @@ public class Usuario implements UserDetails {
     private Long id;
     private String login;
     private String senha;
+    @Column(name = "treino_atual_index")
+    private Integer treinoAtualIndex = 0; // index do treino atual na lista ordenada
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Treino> treinos;
+
+    public void setTreinoAtualIndex(Integer treinoAtualIndex) {
+        this.treinoAtualIndex = treinoAtualIndex;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

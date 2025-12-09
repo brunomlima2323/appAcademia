@@ -20,6 +20,7 @@ public class Treino {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nomeTreino;
+    private Integer ordem; // <- ordem configurável
     @ManyToOne
     @JoinColumn(name = "usuario_id")
     private Usuario usuario;
