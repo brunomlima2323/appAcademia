@@ -17,7 +17,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static org.springframework.http.HttpMethod.POST;
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
@@ -55,11 +55,21 @@ public class SecurityConfigurations {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.setAllowCredentials(true);
+        configuration.setAllowCredentials(false);
 
         // Permito requisicoes do Fronte-end local
-        configuration.addAllowedOrigin("http://localhost:4200");
-        configuration.addAllowedOrigin("https://brunomlima2323.github.io");
+        configuration.addAllowedOriginPattern("http://localhost:4200");
+        configuration.addAllowedOriginPattern("https://brunomlima2323.github.io");
+
+        configuration.setAllowedHeaders(Arrays.asList(
+                "Authorization",
+                "Content-Type",
+                "Accept"
+        ));
+
+        configuration.setAllowedMethods(Arrays.asList(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
 
         // libera qualquer origem HTTPS se necessário
 //        configuration.addAllowedOriginPattern("*");
