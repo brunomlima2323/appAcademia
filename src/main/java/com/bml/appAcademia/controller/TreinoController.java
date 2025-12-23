@@ -61,7 +61,7 @@ public class TreinoController {
             throw new ValidacaoException("Treino atual inválido para o usuário");
         }
 
-        List<TreinoDTO> treinosDTO = treinos.stream().map(t -> new TreinoDTO(t, t.getOrdem().equals(index))).collect(Collectors.toList());
+        List<TreinoDTO> treinosDTO = treinos.stream().map(t -> new TreinoDTO(t, t.getOrdem().equals(index + 1))).collect(Collectors.toList());
 
         return ResponseEntity.ok(treinosDTO);
     }
