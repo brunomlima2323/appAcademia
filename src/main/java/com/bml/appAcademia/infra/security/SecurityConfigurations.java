@@ -35,6 +35,7 @@ public class SecurityConfigurations {
             .cors(c -> c.configurationSource(corsConfigurationSource())) //Ative CORS no SecurityFilterChain para permitir requisições localhost
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Configura a autenticação para ser StateLess
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/login","h2-console/**").permitAll() //Permito requisições para essas URLs
                 .requestMatchers("/v3/api-docs/**","/swagger-ui.html","/swagger-ui/**").permitAll()
                 .anyRequest().authenticated() //Qualquer outra requisição só permito se estiver autenticado
@@ -91,11 +92,10 @@ public class SecurityConfigurations {
                 "GET", "POST", "PUT", "DELETE", "OPTIONS"
         ));
 
+        configuration.setMaxAge(3600L); //ajuda no Safari
+
         // libera qualquer origem HTTPS se necessário
 //        configuration.addAllowedOriginPattern("*");
-
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
