@@ -24,19 +24,35 @@ public class SecurityFilter extends OncePerRequestFilter {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String tokenJWT = recuperarToken(request); //Recupera o token JWT do cabeçalho da requisição
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
-        if (tokenJWT != null){
-            String subject = tokenService.getSubject(tokenJWT); //Valida o token e extrai o "subject" (usuário ou e-mail) contido no JWT.
-            var usuario = usuarioRepository.findByLogin(subject); //Busca o usuário no banco de dados usando o login (subject) extraído do token.
-            Authentication authentication = new UsernamePasswordAuthenticationToken(usuario,null,usuario.getAuthorities()); //Cria o objeto de autenticação do Spring (Authentication) com o usuário autenticado e suas permissões.
-            SecurityContextHolder.getContext().setAuthentication(authentication); //Informa ao Spring Security que o usuário está autenticado, armazenando os dados no contexto de segurança.
-            System.out.println("LOGADO NA REQUISISAO");
+        try {
+            String tokenJWT = recuperarToken(request);
+
+            if (tokenJWT != null && !tokenJWT.isBlank()) {
+                String subject = tokenService.getSubject(tokenJWT);
+                var usuario = usuarioRepository.findByLogin(subject);
+
+                Authentication authentication =
+                        new UsernamePasswordAuthenticationToken(
+                                usuario, null, usuario.getAuthorities()
+                        );
+
+                SecurityContextHolder.getContext()
+                        .setAuthentication(authentication);
+            }
+
+        } catch (Exception e) {
+            // NUNCA bloqueie aqui
+            // Apenas logue
+            System.out.println("Token inválido ou ausente: " + e.getMessage());
         }
 
-        filterChain.doFilter(request,response); //Continua a execução do filtro, permitindo que a requisição siga adiante.
+        // SEMPRE continue o filtro
+        filterChain.doFilter(request, response);
     }
 
     private String recuperarToken(HttpServletRequest request) {
