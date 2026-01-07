@@ -27,6 +27,7 @@ public class AutenticacaoController {
 
     @PostMapping
     public ResponseEntity efetuarLogin(@RequestBody DadosAutenticacaoDTO dados){
+        System.out.println("CHEGOU NO CONTROLLER DE LOGIN");
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha()); //cria um objeto UsernamePasswordAuthenticationToken com esses dados
         Authentication authentication = authenticationManager.authenticate(authenticationToken); //Esse token é enviado ao AuthenticationManager, que dispara a cadeia de autenticação interna do Spring Security.
         Usuario usuario = (Usuario) authentication.getPrincipal();

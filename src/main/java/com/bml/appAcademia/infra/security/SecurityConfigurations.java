@@ -33,10 +33,13 @@ public class SecurityConfigurations {
         return http
             .csrf(c -> c.disable())//Desabilita a proteção contra ataques CSRF. O próprio Token já protege contra isso
             .cors(c -> c.configurationSource(corsConfigurationSource())) //Ative CORS no SecurityFilterChain para permitir requisições localhost
+            .formLogin(form -> form.disable())
+            .httpBasic(basic -> basic.disable())
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Configura a autenticação para ser StateLess
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                .requestMatchers("/login","h2-console/**").permitAll() //Permito requisições para essas URLs
+//                .requestMatchers("/login","h2-console/**").permitAll() //Permito requisições para essas URLs
+                .requestMatchers(HttpMethod.POST, "/login/**").permitAll()
                 .requestMatchers("/v3/api-docs/**","/swagger-ui.html","/swagger-ui/**").permitAll()
                 .anyRequest().authenticated() //Qualquer outra requisição só permito se estiver autenticado
             )
