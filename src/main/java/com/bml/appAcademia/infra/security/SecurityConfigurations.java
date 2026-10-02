@@ -38,6 +38,7 @@ public class SecurityConfigurations {
             .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) //Configura a autenticação para ser StateLess
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/hello/**").permitAll()
 //                .requestMatchers("/login","h2-console/**").permitAll() //Permito requisições para essas URLs
                 .requestMatchers(HttpMethod.POST, "/login/**").permitAll()
                 .requestMatchers("/v3/api-docs/**","/swagger-ui.html","/swagger-ui/**").permitAll()
